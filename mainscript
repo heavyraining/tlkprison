@@ -1,0 +1,62 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("TLK Prison - Item Grabber", "DarkTheme")
+local Tab = Window:NewTab("Items")
+local TabPvp = Window:NewTab("Combat Items")
+local TabCrim = Window:NewTab("Criminal Items")
+local Section = Tab:NewSection("Item Giver")
+local SectionPvp = TabPvp:NewSection("Item Giver (PvP)")
+local SectionCriminal = TabCrim:NewSection("Criminal Item Giver")
+
+Section:NewButton("Collar", "Gives you a collar.", function()
+    local clickdetectorcollar = game:GetService("Workspace").table2.Collar.collar.ClickDetector
+    
+    fireclickdetector(clickdetectorcollar)
+end)
+
+Section:NewButton("Taser", "Gives you a taser.", function()
+    local clickdetectortaser = game:GetService("Workspace").Taser.ClickDetector
+    
+    fireclickdetector(clickdetectortaser)
+end)
+
+Section:NewButton("Keycard", "Gives you a keycard.", function()
+    local clickdetectorkeycard = game:GetService("Workspace").KeyCard.ClickDetector
+    
+    fireclickdetector(clickdetectorkeycard)
+end)
+
+Section:NewButton("Food (healer)", "Gives you a tray of food, it heals you.", function()
+    local clickdetectorfood = game:GetService("Workspace").Food.Main.ClickDetector
+    
+    fireclickdetector(clickdetectorfood)
+end)
+
+Section:NewButton("Rope", "Gives you a coil of rope.", function()
+    local clickdetectorrope = game:GetService("Workspace").Rope.ClickDetector
+    
+    fireclickdetector(clickdetectorrope)
+end)
+
+Section:NewButton("Blindfold", "Gives you a blindfold.", function()
+    local clickdetectorblindfold = game:GetService("Workspace").BlindFold.ClickDetector
+    
+    fireclickdetector(clickdetectorblindfold)
+end)
+
+SectionPvp:NewButton("Axe", "Gives you an axe.", function()
+    local clickdetectoraxe = game:GetService("Workspace").Axe.ClickDetector
+    
+    fireclickdetector(clickdetectoraxe)
+end)
+
+SectionPvp:NewButton("Pickaxe", "Gives you a pickaxe.", function()
+    local clickdetectorpickaxe = game:GetService("Workspace").Pickaxe.ClickDetector
+    
+    fireclickdetector(clickdetectorpickaxe)
+end)
+
+SectionCriminal:NewButton("Cuffs", "Gives you handcuffs.", function()
+    local clickdetectorcuff = game:GetService("Workspace")["Handcuffs (fugitive)"].ClickDetector
+    
+    fireclickdetector(clickdetectorcuff)
+end)
