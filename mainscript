@@ -3,9 +3,11 @@ local Window = Library.CreateLib("TLK Prison - Item Grabber", "DarkTheme")
 local Tab = Window:NewTab("Items")
 local TabPvp = Window:NewTab("Combat Items")
 local TabCrim = Window:NewTab("Criminal Items")
+local TabSettings = Window:NewTab("Settings")
 local Section = Tab:NewSection("Item Giver")
 local SectionPvp = TabPvp:NewSection("Item Giver (PvP)")
 local SectionCriminal = TabCrim:NewSection("Criminal Item Giver")
+local SectionSettings = TabSettings:NewSection("Settings")
 
 Section:NewButton("Collar", "Gives you a collar.", function()
     local clickdetectorcollar = game:GetService("Workspace").table2.Collar.collar.ClickDetector
@@ -60,3 +62,9 @@ SectionCriminal:NewButton("Cuffs", "Gives you handcuffs.", function()
     
     fireclickdetector(clickdetectorcuff)
 end)
+
+SectionSettings:NewKeybind("Configure Hide/Show Key", "The keybind to hide/show the GUI.", Enum.KeyCode.RightShift, function()
+	Library:ToggleUI()
+end)
+
+SectionSettings:NewLabel("The default UI key is Right Shift.")
