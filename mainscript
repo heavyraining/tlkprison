@@ -100,10 +100,6 @@ SectionMisc:NewButton("Become Civilian", "Makes you a civilian.", function()
     fireclickdetector(clickdetectorcivilian)
 end)
 
-SectionMisc:NewButton("Autoheal", "This is a button, not a toggle. Click it again if you die.", function()
-    checkHealth()
-end)
-
 SectionMisc:NewButton("Copy Discord Invite", "Copies the scripts discord to your clipboard.", function()
     setclipboard("https://discord.gg/P4CSucF8H8")
 end)
@@ -154,10 +150,13 @@ function checkHealth()
    end
 end
 
--- Call the checkHealth function every time the player's health changes
-player.Character.Humanoid.HealthChanged:Connect(checkHealth)
-
 -- CODE FOR AUTOHEAL END --
+
+SectionMisc:NewButton("Autoheal", "This is a button, not a toggle. Click it again if you die.", function()
+    checkHealth()
+    player.Character.Humanoid.HealthChanged:Connect(checkHealth)
+end)
+
 -- CODE FOR INSTANT ARREST START --
 
 -- If you're modifying the script, make sure everything involving the UI is put before this.
