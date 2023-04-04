@@ -1,14 +1,30 @@
+-- VITALS START --
+
+-- Do not modify anything here unless you wanna change the title, this is vital.
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("TLK Prison - Item Grabber", "DarkTheme")
+local Window = Library.CreateLib("TLK Prison, by heavy_rainingV2", "DarkTheme")
+local Players = game:GetService("Players")
+local player = game.Players.LocalPlayer
+-- VITALS END --
+
+-- TABS START --
 local Tab = Window:NewTab("Items")
 local TabPvp = Window:NewTab("Combat Items")
 local TabCrim = Window:NewTab("Criminal Items")
 local TabSettings = Window:NewTab("Settings")
+local TabToggles = Window:NewTab("Toggles")
+local TabMisc = Window:NewTab("Miscellaneous")
+-- TABS END --
+-- SECTIONS START --
 local Section = Tab:NewSection("Item Giver")
 local SectionPvp = TabPvp:NewSection("Item Giver (PvP)")
 local SectionCriminal = TabCrim:NewSection("Criminal Item Giver")
 local SectionSettings = TabSettings:NewSection("Settings")
+local SectionToggles = TabToggles:NewSection("Toggles")
+local SectionMisc = TabMisc:NewSection("Miscellaneous")
+-- SECTIONS END --
 
+-----------------------------------------------------------
 Section:NewButton("Collar", "Gives you a collar.", function()
     local clickdetectorcollar = game:GetService("Workspace").table2.Collar.collar.ClickDetector
     
@@ -68,3 +84,90 @@ SectionSettings:NewKeybind("Configure Hide/Show Key", "The keybind to hide/show 
 end)
 
 SectionSettings:NewLabel("The default UI key is Right Shift.")
+
+SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pick up.", function(state)
+    if state then
+        _G.instantarrest = true
+    else
+        _G.instantarrest = false
+        game:GetService("Workspace").TouchChange.Position = Vector3.new(120.967575, 4.6274848, -111.345856)
+    end
+end)
+
+SectionMisc:NewButton("Become Civilian", "Makes you a civilian.", function()
+    local clickdetectorcivilian = game:GetService("Workspace")[""].ClickDetector
+    
+    fireclickdetector(clickdetectorcivilian)
+end)
+
+SectionMisc:NewButton("Autoheal", "This is a button, not a toggle. Click it again if you die.", function()
+    checkHealth()
+end)
+
+SectionMisc:NewButton("Copy Discord Invite", "Copies the scripts discord to your clipboard.", function()
+    setclipboard("https://discord.gg/P4CSucF8H8")
+end)
+
+-- CODE FOR AUTOHEAL START --
+
+function checkHealth()
+   if player.Character.Humanoid.Health < 100 then
+       local toolName = "Food" -- Replace this with the name of the tool you want to check
+       local clickDetectorFood = game:GetService("Workspace").Food.Main.ClickDetector
+       
+       local backpack = player:WaitForChild("Backpack")
+       local tool = backpack:FindFirstChild(toolName) or game:GetService("ReplicatedStorage"):FindFirstChild(toolName)
+       
+       local function giveItem()
+           if not tool then
+               fireclickdetector(clickDetectorFood)
+           end
+       end
+       
+       if not tool then
+           giveItem()
+       end
+       
+       backpack.ChildAdded:Connect(function(child)
+           if child.Name == toolName then
+               tool = child
+           end
+       end)
+       
+       backpack.ChildRemoved:Connect(function(child)
+           if child == tool then
+               tool = backpack:FindFirstChild(toolName) or game:GetService("ReplicatedStorage"):FindFirstChild(toolName)
+               giveItem()
+           end
+       end)
+       
+       if tool and not player.Character:FindFirstChild(toolName) then
+           tool.Parent = player.Character
+       end
+       
+       local args = {
+           [1] = player.Character,
+           [2] = player.Character.Food,
+           [3] = "Heal"
+       }
+       game:GetService("ReplicatedStorage").EatingEvent:FireServer(unpack(args))
+   end
+end
+
+-- Call the checkHealth function every time the player's health changes
+player.Character.Humanoid.HealthChanged:Connect(checkHealth)
+
+-- CODE FOR AUTOHEAL END --
+-- CODE FOR INSTANT ARREST START --
+
+-- If you're modifying the script, make sure everything involving the UI is put before this.
+-- Anything past this will not work with the UI
+
+_G.instantarrest = false
+while wait(0.1) do
+if _G.instantarrest == true then
+wait(0.1)
+game:GetService("Workspace").TouchChange.Position = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position
+end
+end
+-- CODE FOR INSTANT ARREST END --
