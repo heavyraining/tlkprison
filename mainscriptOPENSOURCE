@@ -13,6 +13,8 @@ local TabPvp = Window:NewTab("Combat Items")
 local TabCrim = Window:NewTab("Criminal Items")
 local TabSettings = Window:NewTab("Settings")
 local TabToggles = Window:NewTab("Toggles")
+local TabClothing = Window:NewTab("Clothes")
+local TabTroll = Window:NewTab("Trolling")
 local TabMisc = Window:NewTab("Miscellaneous")
 -- TABS END --
 -- SECTIONS START --
@@ -21,10 +23,17 @@ local SectionPvp = TabPvp:NewSection("Item Giver (PvP)")
 local SectionCriminal = TabCrim:NewSection("Criminal Item Giver")
 local SectionSettings = TabSettings:NewSection("Settings")
 local SectionToggles = TabToggles:NewSection("Toggles")
+local SectionClothingImport = TabClothing:NewSection("Import Custom Clothing")
+local SectionClothingGuard = TabClothing:NewSection("Guard Uniform")
+local SectionClothingInmate = TabClothing:NewSection("Inmate Uniform")
+local SectionTroll = TabTroll:NewSection("Trolling")
 local SectionMisc = TabMisc:NewSection("Miscellaneous")
 -- SECTIONS END --
 
 -----------------------------------------------------------
+
+game.Players.LocalPlayer.Character["Abuse/AntiCheat :troll:"]:Destroy()
+
 Section:NewButton("Collar", "Gives you a collar.", function()
     local clickdetectorcollar = game:GetService("Workspace").table2.Collar.collar.ClickDetector
     
@@ -85,15 +94,6 @@ end)
 
 SectionSettings:NewLabel("The default UI key is Right Shift.")
 
-SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pick up.", function(state)
-    if state then
-        _G.instantarrest = true
-    else
-        _G.instantarrest = false
-        game:GetService("Workspace").TouchChange.Position = Vector3.new(120.967575, 4.6274848, -111.345856)
-    end
-end)
-
 SectionMisc:NewButton("Become Civilian", "Makes you a civilian.", function()
     local clickdetectorcivilian = game:GetService("Workspace")[""].ClickDetector
     
@@ -102,6 +102,60 @@ end)
 
 SectionMisc:NewButton("Copy Discord Invite", "Copies the scripts discord to your clipboard.", function()
     setclipboard("https://discord.gg/P4CSucF8H8")
+end)
+
+SectionClothingGuard:NewButton("Shirt", "Puts on guard shirt.", function()
+    local clickdetectorcopshirt = workspace:GetChildren()[168]:GetChildren()[2][""].Torso.ClickDetector
+    
+    fireclickdetector(clickdetectorcopshirt)
+end)
+
+SectionClothingGuard:NewButton("Pants", "Puts on guard pants.", function()
+    local clickdetectorcoppants = workspace:GetChildren()[172]:GetChildren()[4].Model[""]["Left Leg"].ClickDetector
+    
+    fireclickdetector(clickdetectorcoppants)
+end)
+
+SectionClothingInmate:NewButton("Shirt", "Puts on inmate shirt.", function()
+    local clickdetectorinmateshirt = workspace["Clothing Rack"]:GetChildren()[2][""]["Left Arm"].ClickDetector
+    
+    fireclickdetector(clickdetectorinmateshirt)
+end)
+
+SectionClothingInmate:NewButton("Pants", "Puts on inmate pants.", function()
+    local clickdetectorinmatepants = workspace["pants clothing rack"]:GetChildren()[5].Model[""]["Left Leg"].ClickDetector
+    
+    fireclickdetector(clickdetectorinmatepants)
+end)
+
+SectionClothingImport:NewButton("Enable Gamepass", "Enables the custom clothing gamepass.", function()
+    game:GetService("Players").LocalPlayer.PlayerGui.Avatar.Import.Visible = true
+    game:GetService("Players").LocalPlayer.PlayerGui.Avatar.ImportGuiFrameAdd.Visible = true
+end)
+
+SectionClothingImport:NewLabel("Once pressed:")
+SectionClothingImport:NewLabel("1. Click Open Gui on bottom right, then avatar")
+SectionClothingImport:NewLabel("2. Put in the ID then press import. ")
+
+SectionTroll:NewButton("Go Passive", "Cannot attack, but can cuff and tase.", function()
+    game.Players.LocalPlayer.Character.Hostile:Destroy()
+end)
+
+SectionTroll:NewButton("No Ragdoll", "Prevents being tased and concussions.", function()
+    game.Players.LocalPlayer.Character.RagDoll:Destroy()
+end)
+
+SectionTroll:NewButton("Anticuff", "WARNING: Breaks sprint & roll!", function()
+    game.Players.LocalPlayer.Character.IsCuffed:Destroy()
+end)
+
+SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pick up.", function(state)
+    if state then
+        _G.instantarrest = true
+    else
+        _G.instantarrest = false
+        game:GetService("Workspace").TouchChange.Position = Vector3.new(120.967575, 4.6274848, -111.345856)
+    end
 end)
 
 -- CODE FOR AUTOHEAL START --
