@@ -156,7 +156,7 @@ SectionTroll:NewButton("Antidown", "Prevents being downed.", function()
     game.Players.LocalPlayer.Character.DownState:Destroy()
 end)
 
-SectionTroll:NewLabel("Everything in here will break your sprint.")
+SectionTroll:NewLabel("Everything above this label will break your sprint.")
 
 SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pick up.", function(state)
     if state then
@@ -167,6 +167,28 @@ SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pi
     end
 end)
 
+SectionTroll:NewButton("Begin a Rave (Hold taser)", "Pray for anyone with a low-end PC.", function()
+    lightning()
+end)
+
+-- CODE FOR RAVE START --
+function lightning()
+    while true do
+        wait()
+        
+        local args = {
+            [1] = "Generate",
+            [2] = game:GetService("Players").LocalPlayer.Character.Taser
+        }
+        
+        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+            args[3] = player.Character.HumanoidRootPart.Position
+            args[4] = player.Character.Head.Position
+            game:GetService("ReplicatedStorage").Tase:FireServer(unpack(args))
+        end
+    end
+end
+-- CODE FOR RAVE END --
 -- CODE FOR AUTOHEAL START --
 
 function checkHealth()
@@ -224,6 +246,10 @@ end)
 -- placeholder :)
 -- CODE FOR LOCALS END --
 -- CODE FOR INSTANT ARREST START --
+
+-- VARIABLES STARTS --
+-- placeholder :)
+-- VARIABLES END --
 
 -- If you're modifying the script, make sure everything involving the UI is put before this.
 -- Anything past this will not work with the UI
