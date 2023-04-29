@@ -128,26 +128,35 @@ SectionClothingInmate:NewButton("Pants", "Puts on inmate pants.", function()
     fireclickdetector(clickdetectorinmatepants)
 end)
 
-SectionClothingImport:NewButton("Enable Gamepass", "Enables the custom clothing gamepass.", function()
-    game:GetService("Players").LocalPlayer.PlayerGui.Avatar.Import.Visible = true
-    game:GetService("Players").LocalPlayer.PlayerGui.Avatar.ImportGuiFrameAdd.Visible = true
-end)
+SectionClothingImport:NewTextBox("Type in Clothing ID", "Imports the clothing you type in.", function(txt)
+    local args = {
+        [1] = 11,
+        [2] = (txt),
+        [3] = "Tonyite Armor v4",
+        [4] = "5368892670"
+    }
 
-SectionClothingImport:NewLabel("Once pressed:")
-SectionClothingImport:NewLabel("1. Click Open Gui on bottom right, then avatar")
-SectionClothingImport:NewLabel("2. Put in the ID then press import. ")
+    game:GetService("ReplicatedStorage").Import:FireServer(unpack(args))
+
+end)
 
 SectionTroll:NewButton("Go Passive", "Cannot attack, but can cuff and tase.", function()
     game.Players.LocalPlayer.Character.Hostile:Destroy()
 end)
 
-SectionTroll:NewButton("No Ragdoll", "Prevents being tased and concussions.", function()
+SectionTroll:NewButton("Antiragdoll", "Prevents being tased and concussions.", function()
     game.Players.LocalPlayer.Character.RagDoll:Destroy()
 end)
 
-SectionTroll:NewButton("Anticuff", "WARNING: Breaks sprint & roll!", function()
+SectionTroll:NewButton("Anticuff", "Prevents being cuffed.", function()
     game.Players.LocalPlayer.Character.IsCuffed:Destroy()
 end)
+
+SectionTroll:NewButton("Antidown", "Prevents being downed.", function()
+    game.Players.LocalPlayer.Character.DownState:Destroy()
+end)
+
+SectionTroll:NewLabel("Everything in here will break your sprint.")
 
 SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pick up.", function(state)
     if state then
@@ -211,6 +220,9 @@ SectionMisc:NewButton("Autoheal", "This is a button, not a toggle. Click it agai
     player.Character.Humanoid.HealthChanged:Connect(checkHealth)
 end)
 
+-- CODE FOR LOCALS START --
+-- placeholder :)
+-- CODE FOR LOCALS END --
 -- CODE FOR INSTANT ARREST START --
 
 -- If you're modifying the script, make sure everything involving the UI is put before this.
