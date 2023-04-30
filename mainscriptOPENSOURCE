@@ -27,6 +27,7 @@ local SectionClothingImport = TabClothing:NewSection("Import Custom Clothing")
 local SectionClothingGuard = TabClothing:NewSection("Guard Uniform")
 local SectionClothingInmate = TabClothing:NewSection("Inmate Uniform")
 local SectionTroll = TabTroll:NewSection("Trolling")
+local SectionTrollSeizure = TabTroll:NewSection("Seizure Trolling")
 local SectionMisc = TabMisc:NewSection("Miscellaneous")
 -- SECTIONS END --
 
@@ -171,6 +172,22 @@ SectionTroll:NewButton("Begin a Rave (Hold taser)", "Pray for anyone with a low-
     lightning()
 end)
 
+Plr = {}
+for i,v in pairs(game:GetService("Players"):GetChildren()) do
+    table.insert(Plr,v.Name) 
+end
+SectionTrollSeizure:NewDropdown("Select Player", "Selects a player to tase.", Plr, function(t)
+    playerToSeizure = (t)
+end)
+
+SectionTrollSeizure:NewToggle("SEIZURE EM!", "Repeatedly tases selected player.", function(state)
+    if state then
+        loopTase = true
+    else
+        loopTase = false
+    end
+end)
+
 -- CODE FOR RAVE START --
 function lightning()
     while true do
@@ -245,12 +262,33 @@ end)
 -- CODE FOR LOCALS START --
 -- placeholder :)
 -- CODE FOR LOCALS END --
--- CODE FOR INSTANT ARREST START --
 
 -- VARIABLES STARTS --
--- placeholder :)
+loopTase = false
+playerToSeizure = placeholderseizure
 -- VARIABLES END --
 
+-- CODE FOR SEIZURE PLAYER START --
+while true do
+    wait()
+    if loopTase == true then
+        local args = {
+            [1] = "Hit",
+        [   2] = game:GetService("Players").LocalPlayer.Character.Taser,
+            [3] = game:GetService("Players")[(playerToSeizure)].Character.Head
+        }
+        
+        game:GetService("ReplicatedStorage").Tase:FireServer(unpack(args))
+        local args = {
+            [1] = "Recharge",
+            [2] = game:GetService("Players").LocalPlayer.Character.Taser
+        }
+        
+        game:GetService("ReplicatedStorage").Tase:FireServer(unpack(args))
+    end
+end
+-- CODE FOR SEIZURE PLAYER END --
+-- CODE FOR INSTANT ARREST START --
 -- If you're modifying the script, make sure everything involving the UI is put before this.
 -- Anything past this will not work with the UI
 
