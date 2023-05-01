@@ -1,3 +1,34 @@
+
+-- NOTE: THIS CODE IS UP HERE SO IT'LL WORK, DO NOT EDIT OR REMOVE THIS. SCROLL DOWN TO VITALS --
+-- NOTE: THIS CODE IS UP HERE SO IT'LL WORK, DO NOT EDIT OR REMOVE THIS. SCROLL DOWN TO VITALS --
+
+local function findRopeConstraint()
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local torso = character:WaitForChild("Torso")
+
+    local ropeConstraint = nil
+    local ropePath = nil
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("RopeConstraint") and obj.Attachment0.Name == "Attachment1" and obj.Attachment0:IsA("Attachment") and obj.Attachment0.Parent == torso then
+            ropeConstraint = obj
+            break
+        end
+    end
+
+    -- Return the RopeConstraint if it was found
+    if ropeConstraint then
+        return ropeConstraint
+    else
+        warn("RopeConstraint with Attachment0 set to an attachment named 'Attachment1' not found in LocalPlayer's torso.")
+        return nil
+    end
+end
+-- NOTE: THIS CODE IS UP HERE SO IT'LL WORK, DO NOT EDIT OR REMOVE THIS. SCROLL DOWN TO VITALS --
+
+
 -- VITALS START --
 
 -- Do not modify anything here unless you wanna change the title, this is vital.
@@ -18,11 +49,12 @@ local colors = {
 local Tab = Window:NewTab("Items")
 local TabPvp = Window:NewTab("Combat Items")
 local TabCrim = Window:NewTab("Criminal Items")
-local TabSettings = Window:NewTab("Settings")
 local TabToggles = Window:NewTab("Toggles")
 local TabClothing = Window:NewTab("Clothes")
 local TabTroll = Window:NewTab("Trolling")
+local TabCollar = Window:NewTab("Collar Options")
 local TabMisc = Window:NewTab("Miscellaneous")
+local TabSettings = Window:NewTab("UI Settings")
 -- TABS END --
 -- SECTIONS START --
 local Section = Tab:NewSection("Item Giver")
@@ -36,6 +68,7 @@ local SectionClothingInmate = TabClothing:NewSection("Inmate Uniform")
 local SectionTroll = TabTroll:NewSection("Trolling")
 local SectionTrollSeizure = TabTroll:NewSection("Seizure Trolling")
 local SectionMisc = TabMisc:NewSection("Miscellaneous")
+local SectionCollarEditing = TabCollar:NewSection("Collar Editing")
 -- SECTIONS END --
 
 -----------------------------------------------------------
@@ -195,6 +228,26 @@ SectionTrollSeizure:NewToggle("SEIZURE EM!", "Repeatedly tases selected player."
     end
 end)
 
+SectionCollarEditing:NewSlider("Edit Rope Length", "Changes the rope length.", 30, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    local ropeConstraint = findRopeConstraint()
+    local ropePath = nil
+
+    if ropeConstraint then
+        ropePath = ropeConstraint:GetFullName()
+        ropeConstraint.Length = (s)
+    end
+end)
+
+SectionCollarEditing:NewButton("Stun/Unstun Collared Player", "Will turn the player into a ragdoll ", function()
+    local ropeConstraint = findRopeConstraint()
+    local ropePath = nil
+
+    if ropeConstraint then
+        ropePath = ropeConstraint:GetFullName()
+        ropeConstraint.Parent.Parent.Parent.Humanoid.PlatformStand = not ropeConstraint.Parent.Parent.Parent.Humanoid.PlatformStand
+    end
+end)
+
 -- CODE FOR RAVE START --
 function lightning()
     while true do
@@ -266,13 +319,14 @@ SectionMisc:NewButton("Autoheal", "This is a button, not a toggle. Click it agai
     player.Character.Humanoid.HealthChanged:Connect(checkHealth)
 end)
 
+
 -- CODE FOR LOCALS START --
 -- placeholder :)
 -- CODE FOR LOCALS END --
 
 -- VARIABLES STARTS --
 loopTase = false
-playerToSeizure = placeholderseizure
+playerToSeizure = nil
 -- VARIABLES END --
 
 -- CODE FOR SEIZURE PLAYER START --
@@ -295,10 +349,8 @@ while true do
     end
 end
 -- CODE FOR SEIZURE PLAYER END --
--- CODE FOR INSTANT ARREST START --
--- If you're modifying the script, make sure everything involving the UI is put before this.
--- Anything past this will not work with the UI
 
+-- CODE FOR INSTANT ARREST START --
 _G.instantarrest = false
 while wait(0.1) do
 if _G.instantarrest == true then
