@@ -215,13 +215,27 @@ SectionTroll:NewButton("Begin a Rave (Hold taser)", "Pray for anyone with a low-
     lightning()
 end)
 
-Plr = {}
-for i,v in pairs(game:GetService("Players"):GetChildren()) do
-    table.insert(Plr,v.Name) 
+local playerList = {}
+local playerDropdown
+
+local function refreshPlayerList()
+    playerList = {}
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        table.insert(playerList, player.Name)
+    end
+    playerDropdown:Refresh(playerList)
 end
-SectionTrollSeizure:NewDropdown("Select Player", "Selects a player to tase.", Plr, function(t)
-    playerToSeizure = (t)
+
+playerDropdown = SectionTrollSeizure:NewDropdown("Select Player", "Selects a player to tase.", playerList, function(selectedPlayer)
+    playerToSeizure = selectedPlayer
 end)
+
+-- Update the player list whenever a player joins or leaves the game
+game.Players.PlayerAdded:Connect(refreshPlayerList)
+game.Players.PlayerRemoving:Connect(refreshPlayerList)
+
+-- Call refreshPlayerList once to populate the dropdown initially
+refreshPlayerList()
 
 SectionTrollSeizure:NewToggle("SEIZURE EM!", "Repeatedly tases selected player.", function(state)
     if state then
