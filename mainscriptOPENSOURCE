@@ -33,7 +33,7 @@ end
 
 -- Do not modify anything here unless you wanna change the title, this is vital.
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("TLK Prison, by heavy_rainingV2", colors)
+local Window = Library.CreateLib("TLK Prison, by heavy_rainingV2 - [Therapist#9999]", colors)
 local Players = game:GetService("Players")
 local player = game.Players.LocalPlayer
 local colors = {
