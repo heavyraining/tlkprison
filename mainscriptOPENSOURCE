@@ -53,6 +53,7 @@ local TabToggles = Window:NewTab("Toggles")
 local TabClothing = Window:NewTab("Clothes")
 local TabTroll = Window:NewTab("Trolling")
 local TabCollar = Window:NewTab("Collar Options")
+local TabMap = Window:NewTab("Map Options")
 local TabMisc = Window:NewTab("Miscellaneous")
 local TabSettings = Window:NewTab("UI Settings")
 -- TABS END --
@@ -69,6 +70,8 @@ local SectionTroll = TabTroll:NewSection("Trolling")
 local SectionTrollSeizure = TabTroll:NewSection("Seizure Trolling")
 local SectionMisc = TabMisc:NewSection("Miscellaneous")
 local SectionCollarEditing = TabCollar:NewSection("Collar Editing")
+local SectionMapDeleting = TabMap:NewSection("Map Deleting")
+local SectionDocAntisit = TabMisc:NewSection("HOW TO FORCE HOSTILE")
 -- SECTIONS END --
 
 -----------------------------------------------------------
@@ -199,7 +202,7 @@ end)
 
 SectionTroll:NewLabel("Everything above this label will break your sprint.")
 
-SectionToggles:NewToggle("Instant Arrest", "Instantly arrest any fugitive you pick up.", function(state)
+SectionToggles:NewToggle("Instant Arrest [BROKEN]", "Instantly arrest any fugitive you pick up.", function(state)
     if state then
         _G.instantarrest = true
     else
@@ -247,6 +250,37 @@ SectionCollarEditing:NewButton("Stun/Unstun Collared Player", "Will turn the pla
         ropeConstraint.Parent.Parent.Parent.Humanoid.PlatformStand = not ropeConstraint.Parent.Parent.Parent.Humanoid.PlatformStand
     end
 end)
+
+SectionMapDeleting:NewButton("Delete Bushes", "Deletes bushes to make restraining easier.", function()
+    -- Get all of the bullets in Workspace
+    local bullets = game.Workspace.Bullets:GetChildren()
+
+    -- Loop through all of the bullets
+    for i, bullet in ipairs(bullets) do
+        -- Check if the bullet's name is "Bush"
+        if bullet.Name == "Bush" then
+            -- If it is, delete the bullet
+            bullet:Destroy()
+        end
+    end
+end)
+
+SectionMapDeleting:NewButton("Delete Doors & Windows", "Deletes doors & windows to make entrance easier.", function()
+    for _, object in ipairs(game:GetDescendants()) do
+        local objectName = object.Name:lower()
+            if objectName == "door" or objectName == "jaildoor" or objectName == "glass" then
+            object:Destroy()
+        end
+    end
+end)
+
+-- ANTISIT DOCUMENTATION START --
+SectionDocAntisit:NewLabel("Step 1. Execute Infinite Yield")
+SectionDocAntisit:NewLabel("Step 2. Get a hacksaw")
+SectionDocAntisit:NewLabel("Step 3. Equip your hacksaw")
+SectionDocAntisit:NewLabel("Step 4. Do command -givetool PLRUSERNAME")
+SectionDocAntisit:NewLabel("Step 5. If done correctly, they should now be hostile.")
+-- ANTISIT DOCUMENTATION END --
 
 -- CODE FOR RAVE START --
 function lightning()
