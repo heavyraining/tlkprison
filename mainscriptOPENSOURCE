@@ -26,8 +26,15 @@ local function findRopeConstraint()
         return nil
     end
 end
--- NOTE: THIS CODE IS UP HERE SO IT'LL WORK, DO NOT EDIT OR REMOVE THIS. SCROLL DOWN TO VITALS --
 
+local debug = false
+local function spawningCode()
+    game.Players.LocalPlayer.Character["Abuse/AntiCheat :troll:"]:Destroy()
+    if debug then
+    	print("GOOD - SPAWNING CODE FINISHED")
+    end
+end
+-- NOTE: THIS CODE IS UP HERE SO IT'LL WORK, DO NOT EDIT OR REMOVE THIS. SCROLL DOWN TO VITALS --
 
 -- VITALS START --
 
@@ -44,6 +51,12 @@ local colors = {
     ElementColor = Color3.fromRGB(20, 20, 20)
 }
 -- VITALS END --
+
+spawningCode()
+player.CharacterAdded:Connect(function()
+    wait(0.1)
+    spawningCode()
+end)
 
 -- TABS START --
 local Tab = Window:NewTab("Items")
@@ -75,8 +88,6 @@ local SectionDocAntisit = TabMisc:NewSection("HOW TO FORCE HOSTILE")
 -- SECTIONS END --
 
 -----------------------------------------------------------
-
-game.Players.LocalPlayer.Character["Abuse/AntiCheat :troll:"]:Destroy()
 
 Section:NewButton("Collar", "Gives you a collar.", function()
     local clickdetectorcollar = game:GetService("Workspace").table2.Collar.collar.ClickDetector
@@ -132,11 +143,11 @@ SectionCriminal:NewButton("Cuffs", "Gives you handcuffs.", function()
     fireclickdetector(clickdetectorcuff)
 end)
 
-SectionSettings:NewKeybind("Configure Hide/Show Key", "The keybind to hide/show the GUI.", Enum.KeyCode.RightShift, function()
+SectionSettings:NewKeybind("Configure Hide/Show Key", "The keybind to hide/show the GUI.", Enum.KeyCode.Z, function()
 	Library:ToggleUI()
 end)
 
-SectionSettings:NewLabel("The default UI key is Right Shift.")
+SectionSettings:NewLabel("The default UI key is Z.")
 
 SectionMisc:NewButton("Become Civilian", "Makes you a civilian.", function()
     local clickdetectorcivilian = game:GetService("Workspace")[""].ClickDetector
